@@ -1,3 +1,5 @@
+#import sys
+
 from graphics import Canvas
 import time
 import random
@@ -62,9 +64,9 @@ def main():
     welcome_message = "Welcome to my Python Flashcard game. It's designed to test your knoweledge about some of the basics of Python. Pay attention when you provide answers as it is case sensitive. Good luck and I hope you enjoy it and maybe even learn along the way. There are 22 questions, but you can type 'q' at any time to quit the game."
     print(welcome_message)
     print() #gives a space between this message and the question that will print after
-
+  
     random.shuffle(flashcard_questions)
-    
+
     #Looping through the flashcard_questions list in random order
     for flashcard in flashcard_questions:
         question = flashcard["question"] #loop retrieves value associated w/key 'question' from the flashcard dictionary & assigns that value to the variable 'question'
@@ -73,14 +75,14 @@ def main():
         
         #displaying text on the flashcard with create_text() method. 
         #the anchor='nw' parameter is used to align the text to the northwest part of the card (top left corner)
-        #flash_card_text = canvas.create_text(left_x + 3, top_y + 20, text=question, anchor="nw")
+        #flash_card_text = canvas.create_text(left_x + 3, top_y + 20, text=question, anchor="nw") (bug covering text?)
         
         #adding color to background on canvas
         #canvas.create_rectangle(left_x, top_y, CANVAS_WIDTH-10, CANVAS_HEIGHT-20, 'lightblue')
         #creates a pink colored flashcard
         #flash_card = canvas.create_rectangle(left_x, top_y, left_x + flashcard_width, top_y + flashcard_height, 'pink')
         #flash_card_question = canvas.create_text(left_x + 3, top_y + 10, text=question, anchor="nw")
-
+        
         # Draw background first
         canvas.create_rectangle(left_x, top_y, CANVAS_WIDTH-10, CANVAS_HEIGHT-20, 'lightblue')
 
@@ -90,11 +92,16 @@ def main():
         # Draw question text LAST (so it sits on top)
         canvas.create_text(left_x + 3, top_y + 10, text=question, anchor="nw")
 
+        # FORCE CANVAS TO REFRESH HERE
+        #canvas.update()
+
         time.sleep(0.01)
 
         # THEN ask for input
         user_answer = input("Type your answer to the question or 'q' to quit: ")
-        
+
+
+
         #handling user input, checking the answers to see if they are correct & displaying messages/image to user
         #user_answer = input("Type your answer to the question or 'q' to quit: ")
         if user_answer == 'q':
@@ -105,16 +112,20 @@ def main():
             print()
             print("Your score:", score, "out of",len(flashcard_questions))
             break
-            
+        
+
         if user_answer == correct_answer:
             print("Great job, that's correct!")
             print()
-            draw_kitty(canvas, left_x + 20 + flashcard_width - PATCH_SIZE, top_y - 20)
+            #draw_kitty(canvas, left_x + 20 + flashcard_width - PATCH_SIZE, top_y - 20)
+            draw_kitty(canvas, left_x + 20 + flashcard_width - PATCH_SIZE, top_y + 5)
+
             score+=1 #increment score for each correct answer, stores number of score in the score variable
         else:
             print("Sorry, that's not correct. The correct answer is", correct_answer)
             print()
             
+
         #displays answer on flashcard 
         flash_card_answer = canvas.create_text(left_x + 20, top_y + 30, text="Answer: " + correct_answer, anchor="nw") 
             
@@ -209,58 +220,102 @@ def draw_hello_nose_outline(canvas, left_x, top_y):
     canvas.create_oval(left_x + inset_x, top_y + inset_y, left_x + inset_x + nose_width, top_y + inset_y + nose_height, 'black')
     time.sleep(DELAY)
     
+#def draw_hello_whiskers(canvas, left_x, top_y):
+    # Left whiskers
+    #whisker_left_x = left_x + 32
+    #whisker_top_y = top_y + 65
+
+    #canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y - 10, 'black')
+    #canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y, 'black')
+    #canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y + 10, 'black')
+
+    # Right whiskers
+    #whisker_left_x = left_x + 68
+    #whisker_top_y = top_y + 65
+
+    #canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y - 10, 'black')
+    #canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y, 'black')
+    #canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y + 10, 'black')
+
+
+
+#def draw_hello_ears(canvas, left_x, top_y):
+    # Left ear
+    #canvas.create_line(left_x + 25, top_y + 20, left_x + 35, top_y + 5, 'black')
+    #canvas.create_line(left_x + 35, top_y + 5, left_x + 45, top_y + 20, 'black')
+    #canvas.create_line(left_x + 25, top_y + 20, left_x + 45, top_y + 20, 'black')
+    
+    # Left ear (taller)
+    #canvas.create_line(left_x + 22, top_y + 18, left_x + 35, top_y - 8, 'black')
+    #canvas.create_line(left_x + 35, top_y - 8, left_x + 48, top_y + 18, 'black')
+
+    # Right ear
+    #canvas.create_line(left_x + 55, top_y + 20, left_x + 65, top_y + 5, 'black')
+    #canvas.create_line(left_x + 65, top_y + 5, left_x + 75, top_y + 20, 'black')
+    #canvas.create_line(left_x + 55, top_y + 20, left_x + 75, top_y + 20, 'black')
+
+#def draw_hello_bow(canvas, left_x, top_y):
+    #center circle
+    #canvas.create_oval(left_x + 55, top_y + 10, left_x + 78, top_y + 30, 'red')
+    
+    #left triangle
+    #canvas.create_line(left_x + 65, top_y + 16, left_x + 50, top_y + 24, 'red')
+    #canvas.create_line(left_x + 70, top_y + 36, left_x + 50, top_y + 24, 'red')
+    #right triangle
+    #canvas.create_line(left_x + 80, top_y + 26, left_x + 70, top_y + 34, 'red')     
+
+#From chatgpt
+def draw_segment(canvas, x1, y1, x2, y2, color):
+    steps = 28
+    for i in range(steps + 1):
+        x = int(x1 + (x2 - x1) * i / steps)
+        y = int(y1 + (y2 - y1) * i / steps)
+        canvas.create_oval(x, y, x + 2, y + 2, color)
+
 def draw_hello_whiskers(canvas, left_x, top_y):
     # Left whiskers
     whisker_left_x = left_x + 32
     whisker_top_y = top_y + 65
 
-    canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y - 10, 'black')
-    canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y, 'black')
-    canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y + 10, 'black')
+    draw_segment(canvas, whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y - 10, 'black')
+    draw_segment(canvas, whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y, 'black')
+    draw_segment(canvas, whisker_left_x, whisker_top_y, whisker_left_x - 20, whisker_top_y + 10, 'black')
 
     # Right whiskers
     whisker_left_x = left_x + 68
     whisker_top_y = top_y + 65
 
-    canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y - 10, 'black')
-    canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y, 'black')
-    canvas.create_line(whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y + 10, 'black')
+    draw_segment(canvas, whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y - 10, 'black')
+    draw_segment(canvas, whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y, 'black')
+    draw_segment(canvas, whisker_left_x, whisker_top_y, whisker_left_x + 20, whisker_top_y + 10, 'black')
 
 def draw_hello_ears(canvas, left_x, top_y):
     # Left ear
-    canvas.create_line(left_x + 25, top_y + 20, left_x + 35, top_y + 5, 'black')
-    canvas.create_line(left_x + 35, top_y + 5, left_x + 45, top_y + 20, 'black')
-    canvas.create_line(left_x + 25, top_y + 20, left_x + 45, top_y + 20, 'black')
+    draw_segment(canvas, left_x + 25, top_y + 20, left_x + 35, top_y + 5, 'black')
+    draw_segment(canvas, left_x + 35, top_y + 5, left_x + 45, top_y + 20, 'black')
+    draw_segment(canvas, left_x + 25, top_y + 20, left_x + 45, top_y + 20, 'black')
 
     # Right ear
-    canvas.create_line(left_x + 55, top_y + 20, left_x + 65, top_y + 5, 'black')
-    canvas.create_line(left_x + 65, top_y + 5, left_x + 75, top_y + 20, 'black')
-    canvas.create_line(left_x + 55, top_y + 20, left_x + 75, top_y + 20, 'black')
+    draw_segment(canvas, left_x + 55, top_y + 20, left_x + 65, top_y + 5, 'black')
+    draw_segment(canvas, left_x + 65, top_y + 5, left_x + 75, top_y + 20, 'black')
+    draw_segment(canvas, left_x + 55, top_y + 20, left_x + 75, top_y + 20, 'black')
 
 def draw_hello_bow(canvas, left_x, top_y):
     #center circle
     canvas.create_oval(left_x + 55, top_y + 10, left_x + 78, top_y + 30, 'red')
-    
+
     #left triangle
-    canvas.create_line(left_x + 65, top_y + 16, left_x + 50, top_y + 24, 'red')
-    canvas.create_line(left_x + 70, top_y + 36, left_x + 50, top_y + 24, 'red')
+    draw_segment(canvas, left_x + 65, top_y + 16, left_x + 50, top_y + 24, 'red')
+    draw_segment(canvas, left_x + 70, top_y + 36, left_x + 50, top_y + 24, 'red')
+
     #right triangle
-    canvas.create_line(left_x + 80, top_y + 26, left_x + 70, top_y + 34, 'red')        
+    draw_segment(canvas, left_x + 80, top_y + 26, left_x + 70, top_y + 34, 'red')
+
+
+
+
+   
       
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
