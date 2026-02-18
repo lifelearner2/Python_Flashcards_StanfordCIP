@@ -61,7 +61,7 @@ def main():
     
     # Welcome message
     print()
-    welcome_message = "Welcome to my Python Flashcard game. It's designed to test your knoweledge about some of the basics of Python. Pay attention when you provide answers as it is case sensitive. Good luck and I hope you enjoy it and maybe even learn along the way. There are 22 questions, but you can type 'q' at any time to quit the game."
+    welcome_message = "Welcome to my Python Flashcard game. It's designed to test your knowledge about some of the basics of Python. Pay attention when you provide answers as it is case sensitive. Good luck and I hope you enjoy it and maybe even learn along the way. There are 22 questions, but you can type 'q' at any time to quit the game."
     print(welcome_message)
     print() #gives a space between this message and the question that will print after
   
