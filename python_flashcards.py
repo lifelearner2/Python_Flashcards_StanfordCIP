@@ -62,25 +62,41 @@ def main():
     welcome_message = "Welcome to my Python Flashcard game. It's designed to test your knoweledge about some of the basics of Python. Pay attention when you provide answers as it is case sensitive. Good luck and I hope you enjoy it and maybe even learn along the way. There are 22 questions, but you can type 'q' at any time to quit the game."
     print(welcome_message)
     print() #gives a space between this message and the question that will print after
+
+    random.shuffle(flashcard_questions)
     
     #Looping through the flashcard_questions list in random order
     for flashcard in flashcard_questions:
         question = flashcard["question"] #loop retrieves value associated w/key 'question' from the flashcard dictionary & assigns that value to the variable 'question'
         correct_answer = flashcard["answer"] #this does the same for the key 'answer' from dictionary & stores in var 'correct_answer'
-        random.shuffle(flashcard_questions)
+        #random.shuffle(flashcard_questions)
         
         #displaying text on the flashcard with create_text() method. 
         #the anchor='nw' parameter is used to align the text to the northwest part of the card (top left corner)
-        flash_card_text = canvas.create_text(left_x + 3, top_y + 20, text=question, anchor="nw")
+        #flash_card_text = canvas.create_text(left_x + 3, top_y + 20, text=question, anchor="nw")
         
         #adding color to background on canvas
-        canvas.create_rectangle(left_x, top_y, CANVAS_WIDTH-10, CANVAS_HEIGHT-20, 'lightblue')
+        #canvas.create_rectangle(left_x, top_y, CANVAS_WIDTH-10, CANVAS_HEIGHT-20, 'lightblue')
         #creates a pink colored flashcard
-        flash_card = canvas.create_rectangle(left_x, top_y, left_x + flashcard_width, top_y + flashcard_height, 'pink')
-        flash_card_question = canvas.create_text(left_x + 3, top_y + 10, text=question, anchor="nw")
+        #flash_card = canvas.create_rectangle(left_x, top_y, left_x + flashcard_width, top_y + flashcard_height, 'pink')
+        #flash_card_question = canvas.create_text(left_x + 3, top_y + 10, text=question, anchor="nw")
+
+        # Draw background first
+        canvas.create_rectangle(left_x, top_y, CANVAS_WIDTH-10, CANVAS_HEIGHT-20, 'lightblue')
+
+        # Draw flashcard
+        canvas.create_rectangle(left_x, top_y, left_x + flashcard_width, top_y + flashcard_height, 'pink')
+
+        # Draw question text LAST (so it sits on top)
+        canvas.create_text(left_x + 3, top_y + 10, text=question, anchor="nw")
+
+        time.sleep(0.01)
+
+        # THEN ask for input
+        user_answer = input("Type your answer to the question or 'q' to quit: ")
         
         #handling user input, checking the answers to see if they are correct & displaying messages/image to user
-        user_answer = input("Type your answer to the question or 'q' to quit: ")
+        #user_answer = input("Type your answer to the question or 'q' to quit: ")
         if user_answer == 'q':
             # Thank you message
             thank_you_message = "Thanks for playing. Let's play again sometime!"
